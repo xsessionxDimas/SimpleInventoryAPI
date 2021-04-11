@@ -97,11 +97,11 @@ namespace SimpleInventoryAPI.Controllers
 
         [HttpGet]
         [Route("GetList")]
-        public IEnumerable<Supplier> GetSuppliers()
+        public IEnumerable<SupplierModel> GetSuppliers()
         {
             var param = new Dictionary<string, object>();
             param.Add("IsDeleted", false);
-            return service.GetSuppliers(param);
+            return mapper.Map<IEnumerable<SupplierModel>>(service.GetSuppliers(param));
         }
 
         [HttpGet]

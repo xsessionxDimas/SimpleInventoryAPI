@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleInventoryAPI.DataAccess;
 using SimpleInventoryAPI.Models;
+using SimpleInventoryAPI.Queries;
 using SimpleInventoryAPI.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,11 +17,13 @@ namespace SimpleInventoryAPI.Controllers
     public class ProductComponentController : ControllerBase
     {
         private readonly ProductComponentService service;
+        private readonly COGSQuery cogsQuery;
         private readonly IMapper mapper;
 
-        public ProductComponentController(ProductComponentService service, IMapper mapper)
+        public ProductComponentController(ProductComponentService service, COGSQuery cogsQuery, IMapper mapper)
         {
             this.service = service;
+            this.cogsQuery = cogsQuery;
             this.mapper  = mapper;
         }
 
@@ -32,6 +35,12 @@ namespace SimpleInventoryAPI.Controllers
             {
                 var component = mapper.Map<ProductComponent>(model);
                 component.SetCreatedBy(model.User);
+                var items     = mapper.Map<List<ProductComponentItem>>(model.Items);
+                foreach(var item in items)
+                {
+                    item.SetCreatedBy(model.User);
+                }
+                component.Items = items;
                 await service.AddProductComponent(component); 
                 return Ok(new Response { Status = "Success", Message = "Product Component created successfully" });
 
@@ -52,10 +61,9 @@ namespace SimpleInventoryAPI.Controllers
         {
             try
             {
-                var productComponent = await service.GetProductComponentById(model.Id);
-                productComponent.Usage          = model.Usage;
-                productComponent.CostPerUnit    = model.CostPerUnit;
-                productComponent.FreightPerUnit = model.FreightPerUnit;
+                var productComponent   = await service.GetProductComponentById(model.Id);
+                productComponent.Type  = model.Type;
+                productComponent.Items = mapper.Map<List<ProductComponentItem>>(model.Items);
                 productComponent.SetModifyByAndModifyDate(model.User);
                 await service.UpdateProductComponent(productComponent);
                 return Ok(new Response { Status = "Success", Message = "Product Component updated successfully" });
@@ -95,11 +103,16 @@ namespace SimpleInventoryAPI.Controllers
 
         [HttpGet]
         [Route("GetList")]
-        public IEnumerable<ProductComponent> GetProductComponents()
+        public async Task<List<QueryDTOs.COGSModel>> GetCOGS()
         {
-            var param = new Dictionary<string, object>();
-            param.Add("IsDeleted", false);
-            return service.GetProductComponents(param);
+            return await cogsQuery.GetCOGS().ConfigureAwait(false);
+        }
+
+        [HttpGet]
+        [Route("GetListById")]
+        public async Task<List<QueryDTOs.COGSItemModel>> GetCOGSComponents([FromQuery]int id, string query)
+        {
+            return await cogsQuery.GetCOGSItemsByHeaderId(id).ConfigureAwait(false);
         }
     }
 }

@@ -31,6 +31,7 @@ namespace SimpleInventoryAPI.Configs
             /* queries */
             services.AddScoped<SelectTwoQuery>();
             services.AddScoped<UserQuery>();
+            services.AddScoped<COGSQuery>();
         }
     }
 }

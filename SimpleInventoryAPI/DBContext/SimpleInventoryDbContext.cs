@@ -23,14 +23,18 @@ namespace SimpleInventoryAPI.DBContext
         public DbSet<PurchaseOrder> PurchaseOrders       { get; set; }
 
         /* query */
-        public DbSet<SelectTwoModel> SelectTwoModels   { get; set; }
-        public DbSet<UserModel> UserModels             { get; set; }
+        public DbSet<SelectTwoModel> SelectTwoModels     { get; set; }
+        public DbSet<UserModel> UserModels               { get; set; }
+        public DbSet<COGSModel> COGS                     { get; set; }
+        public DbSet<COGSItemModel> COGSItems            { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             builder.Entity<SelectTwoModel>().HasNoKey();
             builder.Entity<UserModel>().HasNoKey();
+            builder.Entity<COGSModel>().HasNoKey();
+            builder.Entity<COGSItemModel>().HasNoKey();
             base.OnModelCreating(builder);
         }
     }

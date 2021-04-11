@@ -7,7 +7,7 @@ namespace SimpleInventoryAPI.DataAccess
     {
         public PurchaseOrder()
         {
-            Items = new HashSet<PurchaseOrderItem>();
+            Items = new List<PurchaseOrderItem>();
         }
 
         public string PurchaseOrderNumber { get; set; }
@@ -15,6 +15,6 @@ namespace SimpleInventoryAPI.DataAccess
         public DateTime OrderDate         { get; set; }
 
         /* naviation property */
-        public ICollection<PurchaseOrderItem> Items { get; set; }
+        public List<PurchaseOrderItem> Items { get; set; }
     }
 }

@@ -1,13 +1,14 @@
-﻿namespace SimpleInventoryAPI.Models
+﻿using System.Collections.Generic;
+
+namespace SimpleInventoryAPI.Models
 {
     public class ProductComponentModel
     {
-        public int Id                  { get; set; }
-        public int ProductId           { get; set; }
-        public int ComponentId         { get; set; }
-        public int Usage               { get; set; }
-        public decimal CostPerUnit     { get; set; }
-        public decimal? FreightPerUnit { get; set; }
-        public string User             { get; set; }
+        public int Id         { get; set; }
+        public int ProductId  { get; set; }
+        public string Type    { get; set; }   
+        public string User    { get; set; }
+        
+        public List<ProductComponentItemModel> Items { get; set; }
     }
 }

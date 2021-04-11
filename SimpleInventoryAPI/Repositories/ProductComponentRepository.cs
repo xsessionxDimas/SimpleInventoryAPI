@@ -54,7 +54,8 @@ namespace SimpleInventoryAPI.Repositories
                 var paramValue = param[keys[i]];
                 sqlParameters.Add(new MySqlParameter(paramNum, paramValue));
             }
-            return  dbContext.ProductComponents.FromSqlRaw(rawQuery, sqlParameters.ToArray()).ToList();
+            return  dbContext.ProductComponents.FromSqlRaw(rawQuery, sqlParameters.ToArray())
+                .Include(x => x.Items).ToList();
         }
     }
 }

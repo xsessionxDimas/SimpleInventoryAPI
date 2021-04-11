@@ -59,7 +59,7 @@ namespace SimpleInventoryAPI
 
             /* dependency injection here */
             DependencyInjectionConfig.Configure(services);
-
+            services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -78,6 +78,11 @@ namespace SimpleInventoryAPI
             }
 
             //app.UseHttpsRedirection();
+
+            app.UseCors(builder => builder
+                                 .AllowAnyOrigin()
+                                 .AllowAnyMethod()
+                                 .AllowAnyHeader());   
 
             app.UseRouting();
 

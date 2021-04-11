@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimpleInventoryAPI.DBContext;
 
 namespace SimpleInventoryAPI.Migrations
 {
     [DbContext(typeof(SimpleInventoryDbContext))]
-    partial class SimpleInventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210410105835_product component change structure")]
+    partial class productcomponentchangestructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

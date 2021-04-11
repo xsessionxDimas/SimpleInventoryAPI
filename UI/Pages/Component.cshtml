@@ -1,14 +1,14 @@
 ﻿@page
-@model UI.Pages.ProductComponentModel
+@model UI.Pages.SupplierModel
 @{
-    ViewData["Title"] = "Data Master - Supplier";
+    ViewData["Title"] = "Data Master - Component";
 }
 
 <div class="card card-custom">
     <div class="card-header flex-wrap border-0 pt-6 pb-0">
         <div class="card-title">
             <h3 class="card-label">
-                List Supplier
+                List Component
             </h3>
         </div>
         <div class="card-toolbar">
@@ -47,7 +47,7 @@
             </div>
             <!--end::Dropdown-->
             <!--begin::Button-->
-            <a href="#" class="btn btn-primary font-weight-bolder">
+            <a href="javascript:void(0);" class="btn btn-primary font-weight-bolder" data-toggle="modal" data-target="#exampleModalCenter">
                 <span class="svg-icon svg-icon-md">
                     <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -90,8 +90,47 @@
     </div>
 </div>
 
+<!-- begin: Modal -->
+<div class="modal fade" id="exampleModalCenter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <form class="form" id="kt_form_1" style="width:100%">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add / Edit Component</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Part Number<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter part number" id="partnumber" name="partnumber" />
+                    </div>
+                    <div class="form-group">
+                        <label>Part Description<span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter part description" id="desc" name="desc" />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Enter stock" id="stock" name="stock" />
+                    </div>
+                    <div class="form-group">
+                        <label>Threshold<span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" placeholder="Enter threshold" id="threshold" name="threshold" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnSave" class="btn btn-primary font-weight-bold">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- end: Modal -->
+
 @section Scripts
 {
-    <script src="~/assets/js/pages/crud/ktdatatable/base/data-json.js"></script>
+    <script src="~/js/pages/component.js"></script>
 }
 

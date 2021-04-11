@@ -1,15 +1,19 @@
-﻿namespace SimpleInventoryAPI.DataAccess
+﻿using System.Collections.Generic;
+
+namespace SimpleInventoryAPI.DataAccess
 {
     public class ProductComponent : BaseEntity<int>
     {
+        public ProductComponent()
+        {
+            Items = new List<ProductComponentItem>();
+        }
+
         public int ProductId           { get; set; }
-        public int ComponentId         { get; set; }
-        public int Usage               { get; set; }
-        public decimal CostPerUnit     { get; set; }
-        public decimal? FreightPerUnit { get; set; }
+        public string Type             { get; set; }       
 
         /* navigation property */
         public Product Product         { get; set; }
-        public Component Component     { get; set; }
+        public List<ProductComponentItem> Items { get; set; }
     }
 }

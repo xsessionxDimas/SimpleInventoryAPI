@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -76,7 +77,7 @@ namespace SimpleInventoryAPI.Controllers
                 var tokenDescriptior = new SecurityTokenDescriptor
                 {
                     Subject            = new ClaimsIdentity(claims),
-                    Expires            = DateTime.Now.AddMinutes(10),
+                    Expires            = DateTime.Now.AddHours(1),
                     SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptior);
@@ -104,6 +105,14 @@ namespace SimpleInventoryAPI.Controllers
                 return Ok(new Response { Status = "Success", Message = "Role created successfully" });
             }
             return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Role is already exists" });
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("ValidateToken")]
+        public IActionResult Validate()
+        {
+            return Ok();
         }
     }
 }
