@@ -25,6 +25,11 @@ namespace SimpleInventoryAPI.Services
             return repository.Update(purchaseOrder);
         }
 
+        public void ApplyPurchaseOrder(PurchaseOrder purchaseOrder)
+        {
+            ((PurchaseOrderRepository)repository).Apply(purchaseOrder);
+        }
+
         public Task DeletePurchaseOrder(PurchaseOrder purchaseOrder)
         {
             return repository.Delete(purchaseOrder);

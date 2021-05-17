@@ -9,6 +9,7 @@ namespace SimpleInventoryAPI.Configs
         public AutoMapperProfileConfig()
         {
             CreateMap<SupplierModel, Supplier>().ReverseMap();
+            CreateMap<CurrencyRateModel, CurrencyRate>().ReverseMap();
             CreateMap<ProductModel, Product>().ReverseMap();
             CreateMap<ComponentModel, Component>().ReverseMap();
             CreateMap<ProductComponentModel, ProductComponent>()

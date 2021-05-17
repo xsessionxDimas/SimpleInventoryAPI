@@ -81,7 +81,6 @@ function initDropdown(selector, dataSource) {
     });
 }
 
-
 /* tables function */
 function addNewRow() {
     var index = $('#tblItems tbody tr').length;
@@ -156,7 +155,6 @@ function numericBlurEvent(index) {
         }
     });
 }
-
 
 /* populate data */
 function populateData() {

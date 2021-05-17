@@ -30,6 +30,24 @@ namespace SimpleInventoryAPI.Repositories
             return dbContext.SaveChangesAsync();
         }
 
+        public void Apply(PurchaseOrder item)
+        {
+            using (var transaction = dbContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    dbContext.Update(item);
+                    dbContext.Database.ExecuteSqlRaw($"CALL ApplyPurchaseOrder({item.Id})");
+                    dbContext.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (System.Exception ex)
+                {
+                    transaction.Rollback();
+                }                
+            }
+        }
+
         public Task Delete(PurchaseOrder item)
         {
             item.IsDeleted = true;

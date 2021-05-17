@@ -22,9 +22,9 @@ namespace SimpleInventoryAPI.Controllers
 
         public ProductComponentController(ProductComponentService service, COGSQuery cogsQuery, IMapper mapper)
         {
-            this.service = service;
+            this.service   = service;
             this.cogsQuery = cogsQuery;
-            this.mapper  = mapper;
+            this.mapper    = mapper;
         }
 
         [HttpPost]
@@ -67,7 +67,6 @@ namespace SimpleInventoryAPI.Controllers
                 productComponent.SetModifyByAndModifyDate(model.User);
                 await service.UpdateProductComponent(productComponent);
                 return Ok(new Response { Status = "Success", Message = "Product Component updated successfully" });
-
             }
             catch (System.Exception ex)
             {

@@ -17,25 +17,25 @@ namespace SimpleInventoryAPI.Queries
 
         public IEnumerable<SelectTwoModel> GetSupplierDropdownDataSource()
         {
-            var query = "select Cast(Id as CHAR) as id, SupplierName as text from suppliers where IsDeleted = false";
+            var query = "select Cast(Id as CHAR) as id, SupplierName as text, '' as info from suppliers where IsDeleted = false";
             return dbContext.SelectTwoModels.FromSqlRaw(query).ToList();
         }
 
         public IEnumerable<SelectTwoModel> GetProductDropdownDataSource()
         {
-            var query = "select Cast(Id as CHAR) as id, ProductName as text from products where IsDeleted = false";
+            var query = "select Cast(Id as CHAR) as id, ProductName as text, '' as info from products where IsDeleted = false";
             return dbContext.SelectTwoModels.FromSqlRaw(query).ToList();
         }
 
         public IEnumerable<SelectTwoModel> GetComponentDropdownDataSource()
         {
-            var query = "select Cast(Id as CHAR) as id, PartNumber as text from components where IsDeleted = false";
+            var query = "select Cast(Id as CHAR) as id, PartNumber as text, PartDescription as info from components where IsDeleted = false";
             return dbContext.SelectTwoModels.FromSqlRaw(query).ToList();
         }
 
         public IEnumerable<SelectTwoModel> GetRolesDropdownDataSource()
         {
-            var query = "select Id as id, Name as text from aspnetroles";
+            var query = "select Id as id, Name as text,  '' as info from aspnetroles";
             return dbContext.SelectTwoModels.FromSqlRaw(query).ToList();
         }
     }

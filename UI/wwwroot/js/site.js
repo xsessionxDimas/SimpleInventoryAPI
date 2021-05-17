@@ -1,4 +1,31 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿"use strict";
 
-// Write your JavaScript code.
+var alertFunction = function () {
+    var successAlert = function (message, cb) {
+        Swal.fire({
+            title : "Good job!",
+            text  : "message",
+            icon  : "success",
+            buttonsStyling: false,
+        });
+    }   
+
+    return {
+        success: function (message, cb) {
+            Swal.fire({
+                title          : "Good job!",
+                text           : message,
+                icon           : "success",
+                buttonsStyling : false,
+            });
+        },
+
+        error: function (message, cb) {
+
+        },
+
+        confirmation: function (message, cb) {
+
+        }
+    }
+}

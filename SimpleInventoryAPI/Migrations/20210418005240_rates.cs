@@ -4,128 +4,128 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SimpleInventoryAPI.Migrations
 {
-    public partial class addinitialentities : Migration
+    public partial class rates : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Components",
+                name: "CurrencyRates",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 50, nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    PartNumber = table.Column<string>(maxLength: 50, nullable: false),
-                    PartDescription = table.Column<string>(maxLength: 150, nullable: false),
-                    Stock = table.Column<int>(nullable: false)
+                    Currency = table.Column<string>(maxLength: 50, nullable: false),
+                    Rate = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Components", x => x.Id);
+                    table.PrimaryKey("PK_CurrencyRates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "StockOpnames",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 50, nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    ProductName = table.Column<string>(maxLength: 50, nullable: false),
-                    Description = table.Column<string>(maxLength: 150, nullable: false),
-                    VAT = table.Column<float>(nullable: false),
-                    SalesFee = table.Column<float>(nullable: false)
+                    StockOpnameDate = table.Column<DateTime>(nullable: false),
+                    Remarks = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_StockOpnames", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Suppliers",
+                name: "StockOpnameComponent",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<string>(nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 50, nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: true),
-                    SupplierName = table.Column<string>(maxLength: 50, nullable: false),
-                    Address = table.Column<string>(maxLength: 150, nullable: false),
-                    ContactPerson = table.Column<string>(nullable: true),
-                    Phone = table.Column<string>(maxLength: 15, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Suppliers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductComponents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedBy = table.Column<string>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: true),
-                    ProductId = table.Column<int>(nullable: false),
+                    HeaderId = table.Column<int>(nullable: false),
                     ComponentId = table.Column<int>(nullable: false),
-                    Qty = table.Column<int>(nullable: false)
+                    ExpectedQty = table.Column<int>(nullable: false),
+                    ActualQty = table.Column<int>(nullable: false),
+                    Remarks = table.Column<string>(maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductComponents", x => x.Id);
+                    table.PrimaryKey("PK_StockOpnameComponent", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductComponents_Components_ComponentId",
-                        column: x => x.ComponentId,
-                        principalTable: "Components",
+                        name: "FK_StockOpnameComponent_StockOpnames_HeaderId",
+                        column: x => x.HeaderId,
+                        principalTable: "StockOpnames",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StockOpnameProduct",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 50, nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedBy = table.Column<string>(maxLength: 50, nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true),
+                    HeaderId = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    ExpectedQty = table.Column<int>(nullable: false),
+                    ActualQty = table.Column<int>(nullable: false),
+                    Remarks = table.Column<string>(maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StockOpnameProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductComponents_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_StockOpnameProduct_StockOpnames_HeaderId",
+                        column: x => x.HeaderId,
+                        principalTable: "StockOpnames",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductComponents_ComponentId",
-                table: "ProductComponents",
-                column: "ComponentId");
+                name: "IX_StockOpnameComponent_HeaderId",
+                table: "StockOpnameComponent",
+                column: "HeaderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductComponents_ProductId",
-                table: "ProductComponents",
-                column: "ProductId");
+                name: "IX_StockOpnameProduct_HeaderId",
+                table: "StockOpnameProduct",
+                column: "HeaderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductComponents");
+                name: "CurrencyRates");
 
             migrationBuilder.DropTable(
-                name: "Suppliers");
+                name: "StockOpnameComponent");
 
             migrationBuilder.DropTable(
-                name: "Components");
+                name: "StockOpnameProduct");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "StockOpnames");
         }
     }
 }

@@ -15,7 +15,7 @@ namespace SimpleInventoryAPI.DataAccess
         public float VAT          { get; set; }
         public float SalesFee     { get; set; }
         public decimal GrossSales { get; set; }
-        public int Qty            { get; set; }
+        public int InStock        { get; set; }
 
         /* navigation property */
         public ICollection<ProductComponent> ProductComponents { get; set; }

@@ -42,7 +42,7 @@ var componentfunc = function () {
                     field: 'partDescription',
                     title: 'Desc',
                 }, {
-                    field: 'stock',
+                    field: 'inStock',
                     title: 'Stock',
                 }, {
                     field: 'threshold',
@@ -196,7 +196,6 @@ var componentfunc = function () {
         }
     };
 }();
-
 
 jQuery(document).ready(function () {
     componentfunc.init();

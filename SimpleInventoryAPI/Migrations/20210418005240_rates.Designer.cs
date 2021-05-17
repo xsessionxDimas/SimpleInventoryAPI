@@ -9,8 +9,8 @@ using SimpleInventoryAPI.DBContext;
 namespace SimpleInventoryAPI.Migrations
 {
     [DbContext(typeof(SimpleInventoryDbContext))]
-    [Migration("20210404170901_add batch and po entity")]
-    partial class addbatchandpoentity
+    [Migration("20210418005240_rates")]
+    partial class rates
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -161,6 +161,9 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -181,15 +184,49 @@ namespace SimpleInventoryAPI.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("int");
-
                     b.Property<int>("Threshold")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Components");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.CurrencyRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CurrencyRates");
                 });
 
             modelBuilder.Entity("SimpleInventoryAPI.DataAccess.Identity.ApplicationUser", b =>
@@ -275,6 +312,12 @@ namespace SimpleInventoryAPI.Migrations
                         .HasColumnType("varchar(150) CHARACTER SET utf8mb4")
                         .HasMaxLength(150);
 
+                    b.Property<decimal>("GrossSales")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("InStock")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -289,9 +332,6 @@ namespace SimpleInventoryAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
 
                     b.Property<float>("SalesFee")
                         .HasColumnType("float");
@@ -349,7 +389,96 @@ namespace SimpleInventoryAPI.Migrations
                     b.ToTable("ProductBatches");
                 });
 
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductBatchItemSummary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActualCOGS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdditionalCOGS")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("HeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("Spoiled")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StandardUsage")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ComponentId");
+
+                    b.ToTable("ProductBatchItemSummary");
+                });
+
             modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductComponents");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductComponentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -372,6 +501,9 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<decimal?>("FreightPerUnit")
                         .HasColumnType("decimal(65,30)");
 
+                    b.Property<int>("HeaderId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
@@ -382,8 +514,11 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
+                    b.Property<string>("Notes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<int>("Usage")
                         .HasColumnType("int");
@@ -392,9 +527,9 @@ namespace SimpleInventoryAPI.Migrations
 
                     b.HasIndex("ComponentId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("HeaderId");
 
-                    b.ToTable("ProductComponents");
+                    b.ToTable("ProductComponentItem");
                 });
 
             modelBuilder.Entity("SimpleInventoryAPI.DataAccess.PurchaseOrder", b =>
@@ -402,6 +537,9 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Additional")
+                        .HasColumnType("decimal(65,30)");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -411,7 +549,13 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDraft")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
@@ -421,6 +565,9 @@ namespace SimpleInventoryAPI.Migrations
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Notes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
 
@@ -429,8 +576,14 @@ namespace SimpleInventoryAPI.Migrations
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<int>("SupplierId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Tax")
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -447,7 +600,9 @@ namespace SimpleInventoryAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime(6)");
@@ -456,7 +611,8 @@ namespace SimpleInventoryAPI.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ModifiedBy")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime?>("ModifiedDate")
                         .HasColumnType("datetime(6)");
@@ -469,9 +625,144 @@ namespace SimpleInventoryAPI.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ComponentId");
+
                     b.HasIndex("PurchaseOrderId");
 
                     b.ToTable("PurchaseOrderItem");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.StockOpname", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
+
+                    b.Property<DateTime>("StockOpnameDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StockOpnames");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.StockOpnameComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActualQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ComponentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ExpectedQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HeaderId");
+
+                    b.ToTable("StockOpnameComponent");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.StockOpnameProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ActualQty")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ExpectedQty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4")
+                        .HasMaxLength(250);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HeaderId");
+
+                    b.ToTable("StockOpnameProduct");
                 });
 
             modelBuilder.Entity("SimpleInventoryAPI.DataAccess.Supplier", b =>
@@ -519,6 +810,43 @@ namespace SimpleInventoryAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Suppliers");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.QueryDTOs.COGSItemModel", b =>
+                {
+                    b.Property<string>("Component")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("CostPerUnit")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal?>("FreightPerUnit")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("Usage")
+                        .HasColumnType("int");
+
+                    b.ToTable("COGSItems");
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.QueryDTOs.COGSModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.ToTable("COGS");
                 });
 
             modelBuilder.Entity("SimpleInventoryAPI.QueryDTOs.SelectTwoModel", b =>
@@ -606,14 +934,17 @@ namespace SimpleInventoryAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductComponent", b =>
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductBatchItemSummary", b =>
                 {
                     b.HasOne("SimpleInventoryAPI.DataAccess.Component", "Component")
                         .WithMany()
                         .HasForeignKey("ComponentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductComponent", b =>
+                {
                     b.HasOne("SimpleInventoryAPI.DataAccess.Product", "Product")
                         .WithMany("ProductComponents")
                         .HasForeignKey("ProductId")
@@ -621,11 +952,50 @@ namespace SimpleInventoryAPI.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.ProductComponentItem", b =>
+                {
+                    b.HasOne("SimpleInventoryAPI.DataAccess.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SimpleInventoryAPI.DataAccess.ProductComponent", null)
+                        .WithMany("Items")
+                        .HasForeignKey("HeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SimpleInventoryAPI.DataAccess.PurchaseOrderItem", b =>
                 {
+                    b.HasOne("SimpleInventoryAPI.DataAccess.Component", "Component")
+                        .WithMany()
+                        .HasForeignKey("ComponentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SimpleInventoryAPI.DataAccess.PurchaseOrder", null)
                         .WithMany("Items")
                         .HasForeignKey("PurchaseOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.StockOpnameComponent", b =>
+                {
+                    b.HasOne("SimpleInventoryAPI.DataAccess.StockOpname", null)
+                        .WithMany("Components")
+                        .HasForeignKey("HeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SimpleInventoryAPI.DataAccess.StockOpnameProduct", b =>
+                {
+                    b.HasOne("SimpleInventoryAPI.DataAccess.StockOpname", null)
+                        .WithMany("Products")
+                        .HasForeignKey("HeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

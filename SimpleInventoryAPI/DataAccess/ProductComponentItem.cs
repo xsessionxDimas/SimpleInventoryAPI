@@ -1,6 +1,6 @@
 ﻿namespace SimpleInventoryAPI.DataAccess
 {
-    public class ProductComponentItem: BaseEntity<int>
+    public class ProductComponentItem : BaseEntity<int>
     {       
         public int HeaderId            { get; set; }
         public int ComponentId         { get; set; }
@@ -10,7 +10,6 @@
         public decimal Total           { get; set; }
         public string Notes            { get; set; }
         /* navigation property */
-        public Component Component     { get; set; }
-       
+        public Component Component     { get; set; }       
     }
 }

@@ -1,0 +1,114 @@
+﻿@page
+@model UI.Pages.PurchaseOrderFormModel
+@{
+    ViewData["Title"] = "Purchase Order Form";
+}
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">Create Purchase Order</h3>
+        <div class="card-toolbar">
+            <div class="example-tools justify-content-center">
+                <span class="example-toggle example-toggled" data-toggle="tooltip" title="" data-original-title="View code"></span>
+                <span class="example-copy" data-toggle="tooltip" title="" data-original-title="Copy code"></span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <form class="form">
+            <div class="card-body">
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Supplier :</label>
+                        <select class="form-control select2" id="supplier" style="width: 100%">
+                        </select>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Purchase Order Number :</label>
+                        <input type="text" id="ponumber" class="form-control" placeholder="Enter purchase order number" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Order Date :</label>
+                        <div class="input-group date">
+                            <input type="text" id="podate" class="form-control" readonly placeholder="Select date" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="la la-calendar-check-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered dataTable" id="tblItems">
+                    <thead style="background-color: #04c47c">
+                        <tr role="row">
+                            <th class="no-sort" colspan="1" style="width:180px">
+                                <b>Part Number</b>
+                            </th>
+                            <th class="no-sort" colspan="1">
+                                <b>Part Description</b>
+                            </th>
+                            <th class="no-sort" colspan="1" style="width:80px">
+                                <b>Qty</b>
+                            </th>
+                            <th class="no-sort" colspan="1" style="width:180px">
+                                <b>@@Price</b>
+                            </th>
+                            <th class="no-sort" colspan="1" style="width:180px">
+                                <b>Discount</b>
+                            </th>
+                            <th class="no-sort" colspan="1" style="width:180px">
+                                <b>Total</b>
+                            </th>
+                            <th class="no-sort" colspan="1" style="width:60px">
+                                <b>Action</b>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyItem">
+                    </tbody>
+                </table>
+            </div>
+            <div class="row" style="margin: 15px 0">
+                <button type="button" class="btn btn-primary" id="btnDetailNewRow" onclick="addNewRow()">Add Component</button>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-6">
+                    <label>Notes</label>
+                    <textarea class="form-control" id="notes" rows="16"></textarea>
+                </div>
+                <div class="col-lg-6">
+                    <label style="margin-top:0.5rem">Subtotal :</label>
+                    <input type="text" id="subtotal" class="form-control" value="0" disabled="disabled" />
+                    <label style="margin-top:0.5rem">Discount :</label>
+                    <input type="text" id="discount" class="form-control" value="0" disabled="disabled" />
+                    <label style="margin-top:0.5rem">Tax (%):</label>
+                    <input type="text" id="tax" class="form-control" placeholder="Enter tax" />
+                    <label style="margin-top:0.5rem">Additional Fee :</label>
+                    <input type="text" id="additional" class="form-control" placeholder="Enter additional fee" />
+                    <label style="margin-top:0.5rem">Grand Total :</label>
+                    <input type="text" id="grandtotal" class="form-control" value="0" disabled="disabled" />
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button id="btnCancel" type="button" class="btn btn-secondary" onclick="redirectBack()">Cancel</button>
+                <button id="btnSave" type="button" class="btn btn-primary" onclick="submitData()">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/pages/purchaseorderform.js"></script>
+}

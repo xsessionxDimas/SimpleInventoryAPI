@@ -55,7 +55,7 @@ namespace SimpleInventoryAPI.Controllers
                 var component             = await service.GetComponentById(model.Id);
                 component.PartNumber      = model.PartNumber;
                 component.PartDescription = model.PartDescription;
-                component.Stock           = model.Stock;
+                component.InStock         = model.InStock;
                 component.Threshold       = model.Threshold;
                 component.SetModifyByAndModifyDate(model.User);
                 await service.UpdateComponent(component);

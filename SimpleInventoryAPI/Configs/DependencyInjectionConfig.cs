@@ -12,6 +12,7 @@ namespace SimpleInventoryAPI.Configs
         {
             /* repositories */
             services.AddScoped<IRepository<Supplier, int>, SupplierRepository>();
+            services.AddScoped<IRepository<CurrencyRate, int>, CurrencyRateRepository>();
             services.AddScoped<IRepository<Product, int>, ProductRepository>();
             services.AddScoped<IRepository<Component, int>, ComponentRepository>();
             services.AddScoped<IRepository<ProductComponent, int>, ProductComponentRepository>();
@@ -20,6 +21,7 @@ namespace SimpleInventoryAPI.Configs
 
             /* services */
             services.AddScoped<SupplierService>();
+            services.AddScoped<CurrencyRateService>();
             services.AddScoped<ProductService>();
             services.AddScoped<ComponentService>();
             services.AddScoped<ProductComponentService>();
@@ -32,6 +34,7 @@ namespace SimpleInventoryAPI.Configs
             services.AddScoped<SelectTwoQuery>();
             services.AddScoped<UserQuery>();
             services.AddScoped<COGSQuery>();
+            services.AddScoped<PurchaseOrderQuery>();
         }
     }
 }
